@@ -1,0 +1,16 @@
+{
+  "sarah": [
+    {
+      "type": "Income",
+      "amt": 2014.26,
+      "source": "Paycheck"
+    }
+  ],
+  "timmy": [
+    {
+      "type": "Income",
+      "amt": 14.5,
+      "source": "Allowance"
+    }
+  ]
+}
