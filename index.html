@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Load Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <h1>Financial Tracker</h1>
 
@@ -27,6 +31,93 @@
         <p>Balance: <span id="balance">$0.00</span></p>
     </div>
 
-    <script src="static\js\script.js"></script>
+
+    <!-- Add canvas for the chart -->
+    <canvas id="myChart" width="40%" height="50%"></canvas>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const incomeForm = document.getElementById("incomeForm");
+            const expenseForm = document.getElementById("expenseForm");
+            const totalIncomeSpan = document.getElementById("totalIncome");
+            const totalExpenseSpan = document.getElementById("totalExpense");
+            const balanceSpan = document.getElementById("balance");
+            const ctx = document.getElementById("myChart").getContext("2d");
+
+            let incomeData = [];
+            let expenseData = [];
+            let myChart;
+
+            incomeForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const incomeAmount = parseFloat(document.getElementById("incomeAmount").value);
+                if (!isNaN(incomeAmount)) {
+                    incomeData.push(incomeAmount);
+                    updateTotals();
+                    updateChart();
+                }
+                document.getElementById("incomeAmount").value = "";
+            });
+
+            expenseForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const expenseAmount = parseFloat(document.getElementById("expenseAmount").value);
+                if (!isNaN(expenseAmount)) {
+                    expenseData.push(expenseAmount);
+                    updateTotals();
+                    updateChart();
+                }
+                document.getElementById("expenseAmount").value = "";
+            });
+
+            function updateTotals() {
+                const totalIncome = incomeData.reduce((total, amount) => total + amount, 0);
+                const totalExpense = expenseData.reduce((total, amount) => total + amount, 0);
+                const balance = totalIncome - totalExpense;
+                totalIncomeSpan.textContent = `$${totalIncome.toFixed(2)}`;
+                totalExpenseSpan.textContent = `$${totalExpense.toFixed(2)}`;
+                balanceSpan.textContent = `$${balance.toFixed(2)}`;
+            }
+
+            function updateChart() {
+                if (myChart) {
+                    myChart.destroy();
+                }
+
+                myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Total Income", "Total Expense", "Balance"],
+                        datasets: [{
+                            label: 'Amount',
+                            data: [incomeData.reduce((total, amount) => total + amount, 0), expenseData.reduce((total, amount) => total + amount, 0), incomeData.reduce((total, amount) => total + amount, 0) - expenseData.reduce((total, amount) => total + amount, 0)],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(75, 192, 192, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Initial chart update
+            updateChart();
+        });
+    </script>
 </body>
+
 </html>
