@@ -1,0 +1,52 @@
+h1 {
+    color: #b14646;
+    /* Text color (dark gray) */
+    background-color: #f4f4f4;
+    /* Background color (light gray) */
+    padding: 10px;
+    /* Add padding for spacing */
+}
+
+/* Style for section headings */
+h2 {
+    color: #0f0f0f;
+    background-color: #f4f4f4;
+    /* Text color (medium gray) */
+}
+
+/* Style for forms */
+form {
+    margin-bottom: 20px;
+    /* Add margin bottom for spacing between forms */
+}
+
+/* Style for input fields */
+input {
+    padding: 5px;
+    /* Add padding for spacing */
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    /* Add border */
+}
+
+/* Style for buttons */
+button {
+    padding: 5px 10px;
+    /* Add padding for spacing */
+    background-color: #007bff;
+    /* Background color (blue) */
+    color: #fff;
+    /* Text color (white) */
+    border: none;
+    /* Remove border */
+    cursor: pointer;
+    /* Add cursor pointer on hover */
+}
+
+/* Style for finance breakdown section */
+#financeBreakdown {
+    background-color: #f9f9f9;
+    /* Background color (light gray) */
+    padding: 10px;
+    /* Add padding for spacing */
+}
