@@ -39,6 +39,11 @@
         <button type="submit">Add Expense</button>
     </form>
 
+    <!-- Reset Data Button -->
+    <br>
+    <button id="resetDataButton">Reset Data</button>
+
+
     <h2>Finance Breakdown</h2>
     <div id="financeBreakdown">
         <p>Total Income: <span id="totalIncome">$0.00</span></p>
@@ -62,6 +67,7 @@
             const totalExpenseSpan = document.getElementById("totalExpense");
             const balanceSpan = document.getElementById("balance");
             const ctx = document.getElementById("myChart").getContext("2d");
+            const resetDataButton = document.getElementById("resetDataButton");
 
             let incomeData = [];
             let expenseData = [];
@@ -87,6 +93,13 @@
                     updateChart();
                 }
                 document.getElementById("expenseAmount").value = "";
+            });
+
+            resetDataButton.addEventListener("click", function () {
+                incomeData = [];  // Reset income data array
+                expenseData = [];  // Reset expense data array
+                updateTotals();  // Update totals and UI
+                updateChart();  // Update the chart
             });
 
             function updateTotals() {
