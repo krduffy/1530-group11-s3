@@ -1,52 +1,80 @@
+#top-bar {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+#site-title {
+  width: 80vw;
+  text-align: left;
+}
+
+#login-button {
+  height: 50px;
+  margin-right: 10vw;
+  text-align: right;
+}
+
+#myChart {
+  width: 100%;
+  height: 400px;
+}
+
+.chart-container {
+  width: 60%;
+  max-width: 1000px;
+  margin: auto;
+}
+
 h1 {
-    color: #b14646;
-    /* Text color (dark gray) */
-    background-color: #f4f4f4;
-    /* Background color (light gray) */
-    padding: 10px;
-    /* Add padding for spacing */
+  color: #b14646;
+  /* Text color (dark gray) */
+  background-color: #f4f4f4;
+  /* Background color (light gray) */
+  padding: 10px;
+  /* Add padding for spacing */
 }
 
 /* Style for section headings */
 h2 {
-    color: #0f0f0f;
-    background-color: #f4f4f4;
-    /* Text color (medium gray) */
+  color: #0f0f0f;
+  background-color: #f4f4f4;
+  /* Text color (medium gray) */
 }
 
 /* Style for forms */
 form {
-    margin-bottom: 20px;
-    /* Add margin bottom for spacing between forms */
+  margin-bottom: 20px;
+  /* Add margin bottom for spacing between forms */
 }
 
 /* Style for input fields */
 input {
-    padding: 5px;
-    /* Add padding for spacing */
-    border: 1px solid #ccc;
+  padding: 5px;
+  /* Add padding for spacing */
+  border: 1px solid #ccc;
 
-    /* Add border */
+  /* Add border */
 }
 
 /* Style for buttons */
 button {
-    padding: 5px 10px;
-    /* Add padding for spacing */
-    background-color: #007bff;
-    /* Background color (blue) */
-    color: #fff;
-    /* Text color (white) */
-    border: none;
-    /* Remove border */
-    cursor: pointer;
-    /* Add cursor pointer on hover */
+  padding: 5px 10px;
+  /* Add padding for spacing */
+  background-color: #007bff;
+  /* Background color (blue) */
+  color: #fff;
+  /* Text color (white) */
+  border: none;
+  /* Remove border */
+  cursor: pointer;
+  /* Add cursor pointer on hover */
 }
 
 /* Style for finance breakdown section */
 #financeBreakdown {
-    background-color: #f9f9f9;
-    /* Background color (light gray) */
-    padding: 10px;
-    /* Add padding for spacing */
+  background-color: #f9f9f9;
+  /* Background color (light gray) */
+  padding: 10px;
+  /* Add padding for spacing */
 }
