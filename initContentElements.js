@@ -4,7 +4,6 @@ let totalIncomeSpan;
 let totalExpenseSpan;
 let balanceSpan;
 let ctx;
-let resetDataButton;
 
 let incomeData = [];
 let expenseData = [];
@@ -57,7 +56,6 @@ const initContentElements = (userData) => {
   totalExpenseSpan = document.getElementById("totalExpense");
   balanceSpan = document.getElementById("balance");
   ctx = document.getElementById("myChart").getContext("2d");
-  resetDataButton = document.getElementById("resetDataButton");
 
   let userDataAsJson;
   if (localStorage.getItem("currentUserData") != null) {
@@ -104,13 +102,6 @@ const initContentElements = (userData) => {
       postUserData(expenseFormData);
     }
     document.getElementById("expenseAmount").value = "";
-  });
-
-  resetDataButton.addEventListener("click", function () {
-    incomeData = []; // Reset income data array
-    expenseData = []; // Reset expense data array
-    updateTotals(); // Update totals and UI
-    updateChart(); // Update the chart
   });
 
   // Initial chart update
