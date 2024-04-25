@@ -26,6 +26,25 @@
   margin: auto;
 }
 
+#login-button {
+  display: inline-block;
+  padding: 10px 16px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+}
+
+#login-button:hover {
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+}
+
 h1 {
   color: #b14646;
   /* Text color (dark gray) */
