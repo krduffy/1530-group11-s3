@@ -103,7 +103,6 @@
             .then((successfulLogin) => {
               console.log(successfulLogin);
               setUser(successfulLogin.username);
-              //window.location.href = "./index.html";
             })
             .catch((error) => {
               console.error("Login error:", error.message);

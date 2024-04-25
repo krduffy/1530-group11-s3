@@ -14,6 +14,7 @@
     <div id="top-bar">
       <h1 id="site-title">Financial Tracker</h1>
       <a id="login-button" href="http://localhost:8000/login.html"> Log in </a>
+      <button onclick="logOut()">Log out</button>
       <h1 id="current-user"></h1>
     </div>
     <h2>Income Report</h2>
@@ -163,12 +164,14 @@
 
         // Initial chart update
         updateChart();
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = localStorage.getItem("currentUser");
 
-        // Encode the value using JavaScript
-        var encodedCurrentUser = encodeURIComponent(currentUser);
-
-        // Set the encoded value to the HTML element
-        document.getElementById("current-user").textContent = currentUser;
+        if (currentUser) {
+          document.getElementById("current-user").textContent = currentUser;
+          console.log("user is ", currentUser);
+        }
       });
     </script>
   </body>

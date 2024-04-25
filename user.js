@@ -1,9 +1,4 @@
-let currentUser = null;
-let currentUserData = null;
-
 const setUser = (username) => {
-  currentUser = username;
-  console.log(username);
   fetch(`/userData/${encodeURIComponent(username)}`)
     .then((response) => {
       console.log(response);
@@ -13,8 +8,8 @@ const setUser = (username) => {
       return response.json();
     })
     .then((userData) => {
-      currentUser = username;
-      currentUserData = userData;
+      localStorage.setItem("currentUser", username);
+      localStorage.setItem("currentUserData", userData);
     })
     .then(() => {
       window.location.href = "http://localhost:8000/index.html";
@@ -22,4 +17,10 @@ const setUser = (username) => {
     .catch((error) => {
       console.error("There was a problem fetching user data:", error);
     });
+};
+
+const logOut = () => {
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("currentUserData");
+  location.reload();
 };

@@ -88,11 +88,33 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(400)
                 self.end_headers()
                 self.wfile.write(b'Invalid URL format')
-        elif parsed_url.path.endswith(('.html', '.js', '.css')):
+        elif parsed_url.path.endswith('.html'):
             try:
                 with open(parsed_url.path[1:], 'rb') as file:
                     self.send_response(200)
                     self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+                    self.wfile.write(file.read())
+            except FileNotFoundError:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b'File not found')
+        elif parsed_url.path.endswith('.js'):
+            try:
+                with open(parsed_url.path[1:], 'rb') as file:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/js')
+                    self.end_headers()
+                    self.wfile.write(file.read())
+            except FileNotFoundError:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b'File not found')
+        elif parsed_url.path.endswith('.css'):
+            try:
+                with open(parsed_url.path[1:], 'rb') as file:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/css')
                     self.end_headers()
                     self.wfile.write(file.read())
             except FileNotFoundError:
