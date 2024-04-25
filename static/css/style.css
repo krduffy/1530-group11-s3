@@ -78,3 +78,22 @@ button {
   padding: 10px;
   /* Add padding for spacing */
 }
+
+#login-button {
+  display: inline-block;
+  padding: 10px 16px;
+  margin: 26px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+}
+
+#login-button:hover {
+  background-color: #0056b3;
+  color: #ffffff;
+  text-decoration: none;
+}
