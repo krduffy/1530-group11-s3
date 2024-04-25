@@ -19,8 +19,8 @@
                 "description": "Spent on a haircut."
             },
             {
-                "amount": 0.08,
-                "source": "on the ground",
+                "amount": 2222,
+                "source": "a",
                 "type": "Income"
             }
         ]

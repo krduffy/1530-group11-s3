@@ -4,7 +4,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 
 # Define the path to your database file
-database_path = "database.json"
+database_path = "./storage/database.json"
 
 def read_database():
     try:
