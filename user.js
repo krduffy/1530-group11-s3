@@ -9,7 +9,12 @@ const setUser = (username) => {
     })
     .then((userData) => {
       localStorage.setItem("currentUser", username);
-      localStorage.setItem("currentUserData", userData);
+      console.log(JSON.stringify(userData));
+      for (var i = 0; i < userData.length; i++) {
+        userData[i] = JSON.stringify(userData[i]);
+        console.log(userData[i]);
+      }
+      localStorage.setItem("currentUserData", JSON.stringify(userData));
     })
     .then(() => {
       window.location.href = "http://localhost:8000/index.html";

@@ -29,6 +29,7 @@
           min="0.01"
           step="0.01"
         />
+        <input type="text" id="incomeSource" placeholder="Source of income" />
         <button type="submit">Add Income</button>
       </form>
 
@@ -41,6 +42,8 @@
           min="0.01"
           step="0.01"
         />
+        <input type="text" id="expenseCategory" placeholder="Category" />
+        <input type="text" id="expenseDescription" placeholder="Description" />
         <button type="submit">Add Expense</button>
       </form>
 
@@ -64,18 +67,23 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const currentUser = localStorage.getItem("currentUser");
+        if (localStorage.getItem("loaded")) {
+          const currentUser = localStorage.getItem("currentUser");
 
-        if (currentUser) {
-          console.log("current user");
-          document.getElementById("current-user").textContent = currentUser;
-          console.log("user is ", currentUser);
+          if (currentUser) {
+            console.log("current user");
+            document.getElementById("current-user").textContent = currentUser;
+            console.log("user is ", currentUser);
 
-          initContentElements(localStorage.getItem("currentUserData"));
+            initContentElements(localStorage.getItem("currentUserData"));
+          } else {
+            console.log("else");
+            document.getElementById("main-content").innerHTML =
+              "<div>You must" + "log in to see data.</div>";
+          }
         } else {
-          console.log("else");
-          document.getElementById("main-content").innerHTML =
-            "<div>You must" + "log in to see data.</div>";
+          localStorage.clear();
+          localStorage.setItem("loaded", true);
         }
       });
     </script>

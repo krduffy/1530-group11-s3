@@ -19,10 +19,17 @@ initContentElements = (userData) => {
   ctx = document.getElementById("myChart").getContext("2d");
   resetDataButton = document.getElementById("resetDataButton");
 
-  incomeData = userData.filter((item) => {
+  console.log(userData);
+
+  let userDataAsJson;
+  if (localStorage.getItem("currentUserData") != null) {
+    userDataAsJson = JSON.parse(localStorage.getItem("currentUserData"));
+  }
+
+  incomeData = userDataAsJson.filter((item) => {
     return (item["type"] = "Income");
   });
-  expenseData = userData.filter((item) => {
+  expenseData = userDataAsJson.filter((item) => {
     return (item["type"] = "Expense");
   });
 
