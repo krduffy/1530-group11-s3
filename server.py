@@ -18,12 +18,14 @@ def write_database(data):
     with open(database_path, "w") as file:
         json.dump(data, file, indent=4)
 
+# also initializes user's data to []
 def create_account(username, password):
     database = read_database()
     if username in database["userLoginData"]:
         return None
     else:
         database["userLoginData"][username] = password
+        database["userFinancialData"][username] = []
         write_database(database)
         return username
 
@@ -62,6 +64,7 @@ def init_database():
       }
     }
     write_database(initial_database)
+    
 
 class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
