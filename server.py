@@ -43,23 +43,36 @@ def get_user_data(username):
 
 def init_database():
     initial_database = {
-        "userLoginData": {},
-        "userFinancialData": {}
+      "userLoginData": {
+        "username": "password",
+      },
+      "userFinancialData": {
+        "username": [
+          {
+            "type": "Income",
+            "amt": 2014.26,
+            "source": "Paycheck"
+          },
+          {
+            "type": "Expense",
+            "amt": 25.00,
+            "source": "Haircut"
+          }
+        ],
+      }
     }
     write_database(initial_database)
 
 class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed_url = urlparse(self.path)
-        query_params = parse_qs(parsed_url.query)
-
-        print(parsed_url)
-        print(query_params)
         
-        if parsed_url.path == "/userData":
-            # Extracting the username from query parameters
-            if 'username' in query_params:
-                username = query_params['username'][0]  # Assuming only one username is provided
+        if parsed_url.path.startswith("/userData"):
+            # Extracting the username from the URL path
+            # Assuming the path is in the format "/userData/username"
+            path_parts = parsed_url.path.split("/")
+            if len(path_parts) == 3:  # Expecting three parts: "", "userData", "username"
+                username = path_parts[2]
                 user_data = get_user_data(username)
                 
                 if user_data:
@@ -74,24 +87,22 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             else:
                 self.send_response(400)
                 self.end_headers()
-                self.wfile.write(b'Username parameter missing')
-        elif parsed_url.path.endswith('.html') or \
-              parsed_url.path.endswith('.js') or \
-              parsed_url.path.endswith('.css'):
-          try:
-              with open(parsed_url.path[1:], 'rb') as file:
-                  self.send_response(200)
-                  self.send_header('Content-type', 'text/html')
-                  self.end_headers()
-                  self.wfile.write(file.read())
-          except FileNotFoundError:
-              self.send_response(404)
-              self.end_headers()
-              self.wfile.write(b'File not found')
+                self.wfile.write(b'Invalid URL format')
+        elif parsed_url.path.endswith(('.html', '.js', '.css')):
+            try:
+                with open(parsed_url.path[1:], 'rb') as file:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+                    self.wfile.write(file.read())
+            except FileNotFoundError:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b'File not found')
         else:
             self.send_response(404)
             self.end_headers()
-            self.wfile.write(b'404 Not Founda')
+            self.wfile.write(b'404 Not Found')
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -121,7 +132,7 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps({"message": "Login successful"}).encode('utf-8'))
+                self.wfile.write(json.dumps({"message": "Login successful", "username": username}).encode('utf-8'))
             else:
                 self.send_response(401)
                 self.send_header('Content-type', 'application/json')

@@ -14,6 +14,7 @@
     <div id="top-bar">
       <h1 id="site-title">Financial Tracker</h1>
       <a id="login-button" href="http://localhost:8000/login.html"> Log in </a>
+      <h1 id="current-user"></h1>
     </div>
     <h2>Income Report</h2>
     <form id="incomeForm">
@@ -162,6 +163,12 @@
 
         // Initial chart update
         updateChart();
+
+        // Encode the value using JavaScript
+        var encodedCurrentUser = encodeURIComponent(currentUser);
+
+        // Set the encoded value to the HTML element
+        document.getElementById("current-user").textContent = currentUser;
       });
     </script>
   </body>
