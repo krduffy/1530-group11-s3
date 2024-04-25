@@ -58,17 +58,17 @@ def init_database():
         "username": [
           {
             "type": "Income",
-            "amount": 2014.26,
-            "source": "Paycheck",
+            "amount": 100.00,
+            "source": "Found on ground",
             "category": "",
             "description": ""
           },
           {
             "type": "Expense",
-            "amount": 25.00,
+            "amount": 40.00,
             "source": "",
             "category": "",
-            "description": "Spent on a haircut."
+            "description": "Spent on a new shirt."
           }
         ]
       }
@@ -203,8 +203,8 @@ def run_server(port=8000):
         print(f"Serving at port {port}")
         httpd.serve_forever()
 
-# Run init_database to create the initial database
-init_database()
+# Run (optionally) init_database to create the initial database
+#init_database()
 
 # Run the server
 run_server()

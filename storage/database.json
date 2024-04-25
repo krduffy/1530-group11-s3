@@ -6,33 +6,38 @@
         "username": [
             {
                 "type": "Income",
-                "amount": 2014.26,
-                "source": "Paycheck",
+                "amount": 100.0,
+                "source": "Found on ground",
                 "category": "",
                 "description": ""
             },
             {
                 "type": "Expense",
-                "amount": 25.0,
+                "amount": 40.0,
                 "source": "",
                 "category": "",
-                "description": "Spent on a haircut."
+                "description": "Spent on a new shirt."
             },
             {
-                "amount": 2222,
-                "source": "a",
+                "amount": 10,
+                "source": "found it",
                 "type": "Income"
             },
             {
-                "amount": 2000,
-                "category": "",
-                "description": "new computer",
+                "amount": 10,
+                "category": "food",
+                "description": "lunch",
                 "type": "Expense"
             },
             {
-                "amount": 10000,
-                "category": "",
-                "description": "new computer",
+                "amount": 10,
+                "source": "survey",
+                "type": "Income"
+            },
+            {
+                "amount": 15,
+                "category": "food",
+                "description": "lunch",
                 "type": "Expense"
             }
         ]
