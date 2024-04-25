@@ -10,6 +10,22 @@ let incomeData = [];
 let expenseData = [];
 let myChart;
 
+const getFormData = (form) => {
+  var formData = {};
+  var formElements = form.elements; // Get all elements in the form
+  for (var i = 0; i < formElements.length; i++) {
+    var input = formElements[i];
+    if (input.tagName === "INPUT" && input.type !== "submit") {
+      // Ignore submit button
+      formData[input.name] = input.value; // Add input value to the formData object
+      if (input.name === "amount") {
+        formData[input.name] = parseFloat(formData[input.name]);
+      }
+    }
+  }
+  return formData;
+};
+
 const postUserData = (data) => {
   console.log("making post req");
   console.log(localStorage.getItem("currentUser"));
@@ -73,10 +89,12 @@ const initContentElements = (userData) => {
       document.getElementById("incomeAmount").value
     );
     if (!isNaN(incomeAmount)) {
-      incomeData.push(event.target);
+      let incomeFormData = getFormData(event.target);
+      incomeFormData["type"] = "Income";
+      incomeData.push(incomeFormData);
       updateTotals();
       updateChart();
-      postUserData(event.target);
+      postUserData(incomeFormData);
     }
     document.getElementById("incomeAmount").value = "";
   });
@@ -87,11 +105,13 @@ const initContentElements = (userData) => {
       document.getElementById("expenseAmount").value
     );
     if (!isNaN(expenseAmount)) {
-      expenseData.push(event.target);
+      let expenseFormData = getFormData(event.target);
+      expenseFormData["type"] = "Expense";
+      expenseData.push(expenseFormData);
       updateTotals();
       updateChart();
 
-      postUserData(event.target);
+      postUserData(expenseFormData);
     }
     document.getElementById("expenseAmount").value = "";
   });
@@ -111,7 +131,7 @@ function updateTotals() {
   console.log(incomeData);
   console.log(expenseData);
   let totalIncome = incomeData.reduce((total, key) => {
-    console.log(key);
+    console.log(key["amount"]);
     return total + key["amount"];
   }, 0);
   console.log(totalIncome);
@@ -120,6 +140,8 @@ function updateTotals() {
     0
   );
   let balance = totalIncome - totalExpense;
+  console.log("type is", typeof totalIncome);
+  console.table({ totalIncome, totalExpense, balance });
   totalIncomeSpan.textContent = `$${totalIncome.toFixed(2)}`;
   totalExpenseSpan.textContent = `$${totalExpense.toFixed(2)}`;
   balanceSpan.textContent = `$${balance.toFixed(2)}`;

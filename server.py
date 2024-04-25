@@ -47,6 +47,7 @@ def add_user_data(username, data):
     database = read_database()
     database["userFinancialData"][username].append(data)
     write_database(database)
+    return True
 
 def init_database():
     initial_database = {
