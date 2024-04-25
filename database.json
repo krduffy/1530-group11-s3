@@ -1,4 +1,27 @@
 {
-    "userLoginData": {},
-    "userFinancialData": {}
+  "userLoginData": {
+    "krduffy": "123",
+    "seconduser": "456"
+  },
+  "userFinancialData": {
+    "krduffy": [
+      {
+        "type": "Income",
+        "amt": 2014.26,
+        "source": "Paycheck"
+      },
+      {
+        "type": "Income",
+        "amt": 0.25,
+        "source": "Found on ground"
+      }
+    ],
+    "seconduser": [
+      {
+        "type": "Expense",
+        "amt": 1000,
+        "source": "New computer"
+      }
+    ]
+  }
 }

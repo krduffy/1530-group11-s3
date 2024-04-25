@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
+    <script src="./user.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -76,16 +77,15 @@
       document
         .getElementById("login-form")
         .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent default form submission
+          event.preventDefault();
 
-          // Get form data
           const formData = new FormData(event.target);
           const requestData = {};
           formData.forEach((value, key) => {
             requestData[key] = value;
           });
 
-          // Send POST request to server
+          // send post request to server
           fetch("/login", {
             method: "POST",
             headers: {
@@ -100,13 +100,12 @@
                 throw new Error("Login failed");
               }
             })
-            .then((data) => {
-              // Handle successful login
-              console.log(data.message); // Replace with your logic
-              window.location.href = "./index.html"; // Redirect to index page
+            .then((username) => {
+              console.log(username.message);
+              setUser(username);
+              window.location.href = "./index.html";
             })
             .catch((error) => {
-              // Handle login error
               console.error("Login error:", error.message);
               alert(
                 "Login failed. Please check your credentials and try again."

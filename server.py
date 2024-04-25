@@ -1,6 +1,7 @@
 import http.server
 import socketserver
 import json
+from urllib.parse import urlparse, parse_qs
 
 # Define the path to your database file
 database_path = "database.json"
@@ -28,11 +29,15 @@ def create_account(username, password):
 
 def login(username, password):
     database = read_database()
-    print(database)
-    print(username)
-    print(password)
     if username in database["userLoginData"] and database["userLoginData"][username] == password:
         return username
+    else:
+        return None
+
+def get_user_data(username):
+    database = read_database()
+    if username in database["userFinancialData"]:
+        return database["userFinancialData"][username]
     else:
         return None
 
@@ -44,6 +49,50 @@ def init_database():
     write_database(initial_database)
 
 class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        parsed_url = urlparse(self.path)
+        query_params = parse_qs(parsed_url.query)
+
+        print(parsed_url)
+        print(query_params)
+        
+        if parsed_url.path == "/userData":
+            # Extracting the username from query parameters
+            if 'username' in query_params:
+                username = query_params['username'][0]  # Assuming only one username is provided
+                user_data = get_user_data(username)
+                
+                if user_data:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps(user_data).encode('utf-8'))
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+                    self.wfile.write(b'User not found')
+            else:
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b'Username parameter missing')
+        elif parsed_url.path.endswith('.html') or \
+              parsed_url.path.endswith('.js') or \
+              parsed_url.path.endswith('.css'):
+          try:
+              with open(parsed_url.path[1:], 'rb') as file:
+                  self.send_response(200)
+                  self.send_header('Content-type', 'text/html')
+                  self.end_headers()
+                  self.wfile.write(file.read())
+          except FileNotFoundError:
+              self.send_response(404)
+              self.end_headers()
+              self.wfile.write(b'File not found')
+        else:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b'404 Not Founda')
+
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length).decode('utf-8')
