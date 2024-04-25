@@ -22,6 +22,18 @@
                 "amount": 2222,
                 "source": "a",
                 "type": "Income"
+            },
+            {
+                "amount": 2000,
+                "category": "",
+                "description": "new computer",
+                "type": "Expense"
+            },
+            {
+                "amount": 10000,
+                "category": "",
+                "description": "new computer",
+                "type": "Expense"
             }
         ]
     }

@@ -92,15 +92,11 @@
           const currentUser = localStorage.getItem("currentUser");
 
           if (currentUser) {
-            console.log("current user");
             document.getElementById("current-user").textContent = currentUser;
-            console.log("user is ", currentUser);
-
             initContentElements(localStorage.getItem("currentUserData"));
           } else {
-            console.log("else");
             document.getElementById("main-content").innerHTML =
-              "<div>You must" + "log in to see data.</div>";
+              "<div id='must-login-message'>You must log in to use FinancialTracker.</div>";
           }
         } else {
           localStorage.clear();

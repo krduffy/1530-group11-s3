@@ -1,7 +1,6 @@
 const setUser = (username) => {
   fetch(`/userData/${encodeURIComponent(username)}`)
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -9,10 +8,8 @@ const setUser = (username) => {
     })
     .then((userData) => {
       localStorage.setItem("currentUser", username);
-      console.log(JSON.stringify(userData));
       for (var i = 0; i < userData.length; i++) {
         userData[i] = JSON.stringify(userData[i]);
-        console.log(userData[i]);
       }
       localStorage.setItem("currentUserData", JSON.stringify(userData));
     })

@@ -27,8 +27,6 @@ const getFormData = (form) => {
 };
 
 const postUserData = (data) => {
-  console.log("making post req");
-  console.log(localStorage.getItem("currentUser"));
   fetch(
     `/addUserData/${encodeURIComponent(localStorage.getItem("currentUser"))}`,
     {
@@ -61,24 +59,16 @@ const initContentElements = (userData) => {
   ctx = document.getElementById("myChart").getContext("2d");
   resetDataButton = document.getElementById("resetDataButton");
 
-  console.log(userData);
-
   let userDataAsJson;
   if (localStorage.getItem("currentUserData") != null) {
     userDataAsJson = JSON.parse(localStorage.getItem("currentUserData"));
     userDataAsJson = userDataAsJson.map((item) => JSON.parse(item));
-    console.log(userDataAsJson);
     incomeData = userDataAsJson.filter((item) => {
-      console.log(item);
       return item["type"] === "Income";
     });
     expenseData = userDataAsJson.filter((item) => {
       return item["type"] === "Expense";
     });
-    console.log("income");
-    console.log(incomeData);
-    console.log("ex");
-    console.log(expenseData);
     updateTotals();
     updateChart();
   }
@@ -128,20 +118,14 @@ const initContentElements = (userData) => {
 };
 
 function updateTotals() {
-  console.log(incomeData);
-  console.log(expenseData);
   let totalIncome = incomeData.reduce((total, key) => {
-    console.log(key["amount"]);
     return total + key["amount"];
   }, 0);
-  console.log(totalIncome);
   let totalExpense = expenseData.reduce(
     (total, key) => total + key["amount"],
     0
   );
   let balance = totalIncome - totalExpense;
-  console.log("type is", typeof totalIncome);
-  console.table({ totalIncome, totalExpense, balance });
   totalIncomeSpan.textContent = `$${totalIncome.toFixed(2)}`;
   totalExpenseSpan.textContent = `$${totalExpense.toFixed(2)}`;
   balanceSpan.textContent = `$${balance.toFixed(2)}`;
@@ -160,10 +144,10 @@ function updateChart() {
         {
           label: "Amount",
           data: [
-            incomeData.reduce((total, amount) => total + amount, 0),
-            expenseData.reduce((total, amount) => total + amount, 0),
-            incomeData.reduce((total, amount) => total + amount, 0) -
-              expenseData.reduce((total, amount) => total + amount, 0),
+            incomeData.reduce((total, key) => total + key["amount"], 0),
+            expenseData.reduce((total, key) => total + key["amount"], 0),
+            incomeData.reduce((total, key) => total + key["amount"], 0) -
+              expenseData.reduce((total, key) => total + key["amount"], 0),
           ],
           backgroundColor: [
             "rgba(54, 162, 235, 0.2)",
