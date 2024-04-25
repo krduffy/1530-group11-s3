@@ -1,23 +1,23 @@
 {
     "userLoginData": {
-        "username": "password",
-        "k": "k",
-        "ka": "aaa"
+        "username": "password"
     },
     "userFinancialData": {
         "username": [
             {
                 "type": "Income",
-                "amt": 2014.26,
-                "source": "Paycheck"
+                "amount": 2014.26,
+                "source": "Paycheck",
+                "category": "",
+                "description": ""
             },
             {
                 "type": "Expense",
-                "amt": 25.0,
-                "source": "Haircut"
+                "amount": 25.0,
+                "source": "",
+                "category": "",
+                "description": "Spent on a haircut."
             }
-        ],
-        "k": [],
-        "ka": []
+        ]
     }
 }

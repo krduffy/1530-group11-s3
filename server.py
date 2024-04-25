@@ -43,6 +43,11 @@ def get_user_data(username):
     else:
         return None
 
+def add_user_data(username, data):
+    database = read_database()
+    database["userFinancialData"][username].append(data)
+    write_database(database)
+
 def init_database():
     initial_database = {
       "userLoginData": {
@@ -52,18 +57,23 @@ def init_database():
         "username": [
           {
             "type": "Income",
-            "amt": 2014.26,
-            "source": "Paycheck"
+            "amount": 2014.26,
+            "source": "Paycheck",
+            "category": "",
+            "description": ""
           },
           {
             "type": "Expense",
-            "amt": 25.00,
-            "source": "Haircut"
+            "amount": 25.00,
+            "source": "",
+            "category": "",
+            "description": "Spent on a haircut."
           }
-        ],
+        ]
       }
     }
     write_database(initial_database)
+
     
 
 class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -133,6 +143,7 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length).decode('utf-8')
         post_data = json.loads(post_data)
+        parsed_url = urlparse(self.path)
 
         if self.path == "/createAccount":
             username = post_data["username"]
@@ -163,6 +174,22 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({"error": "Invalid credentials"}).encode('utf-8'))
+
+        elif parsed_url.path.startswith("/addUserData"):
+            path_parts = parsed_url.path.split("/")
+            if len(path_parts) == 3:  # Expecting three parts: "", "userData", "username"
+                username = path_parts[2]
+                result = add_user_data(username, post_data)
+                
+                if result:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps(result).encode('utf-8'))
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+                    self.wfile.write(b'User not found')
 
         else:
             self.send_response(404)
