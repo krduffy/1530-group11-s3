@@ -10,7 +10,33 @@ let incomeData = [];
 let expenseData = [];
 let myChart;
 
-initContentElements = (userData) => {
+const postUserData = (data) => {
+  console.log("making post req");
+  console.log(localStorage.getItem("currentUser"));
+  fetch(
+    `/addUserData/${encodeURIComponent(localStorage.getItem("currentUser"))}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Login failed");
+      }
+    })
+    .catch((error) => {
+      console.error("Login error:", error.message);
+      alert("Login failed. Please check your credentials and try again.");
+    });
+};
+
+const initContentElements = (userData) => {
   incomeForm = document.getElementById("incomeForm");
   expenseForm = document.getElementById("expenseForm");
   totalIncomeSpan = document.getElementById("totalIncome");
@@ -24,14 +50,22 @@ initContentElements = (userData) => {
   let userDataAsJson;
   if (localStorage.getItem("currentUserData") != null) {
     userDataAsJson = JSON.parse(localStorage.getItem("currentUserData"));
+    userDataAsJson = userDataAsJson.map((item) => JSON.parse(item));
+    console.log(userDataAsJson);
+    incomeData = userDataAsJson.filter((item) => {
+      console.log(item);
+      return item["type"] === "Income";
+    });
+    expenseData = userDataAsJson.filter((item) => {
+      return item["type"] === "Expense";
+    });
+    console.log("income");
+    console.log(incomeData);
+    console.log("ex");
+    console.log(expenseData);
+    updateTotals();
+    updateChart();
   }
-
-  incomeData = userDataAsJson.filter((item) => {
-    return (item["type"] = "Income");
-  });
-  expenseData = userDataAsJson.filter((item) => {
-    return (item["type"] = "Expense");
-  });
 
   incomeForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -39,9 +73,10 @@ initContentElements = (userData) => {
       document.getElementById("incomeAmount").value
     );
     if (!isNaN(incomeAmount)) {
-      incomeData.push(incomeAmount);
+      incomeData.push(event.target);
       updateTotals();
       updateChart();
+      postUserData(event.target);
     }
     document.getElementById("incomeAmount").value = "";
   });
@@ -52,9 +87,11 @@ initContentElements = (userData) => {
       document.getElementById("expenseAmount").value
     );
     if (!isNaN(expenseAmount)) {
-      expenseData.push(expenseAmount);
+      expenseData.push(event.target);
       updateTotals();
       updateChart();
+
+      postUserData(event.target);
     }
     document.getElementById("expenseAmount").value = "";
   });
@@ -71,8 +108,17 @@ initContentElements = (userData) => {
 };
 
 function updateTotals() {
-  let totalIncome = incomeData.reduce((total, amount) => total + amount, 0);
-  let totalExpense = expenseData.reduce((total, amount) => total + amount, 0);
+  console.log(incomeData);
+  console.log(expenseData);
+  let totalIncome = incomeData.reduce((total, key) => {
+    console.log(key);
+    return total + key["amount"];
+  }, 0);
+  console.log(totalIncome);
+  let totalExpense = expenseData.reduce(
+    (total, key) => total + key["amount"],
+    0
+  );
   let balance = totalIncome - totalExpense;
   totalIncomeSpan.textContent = `$${totalIncome.toFixed(2)}`;
   totalExpenseSpan.textContent = `$${totalExpense.toFixed(2)}`;
